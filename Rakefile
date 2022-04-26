@@ -6,11 +6,11 @@ desc 'Say hello'
 task :hello do
   puts "Hello there. This is the `hello` task."
 end
-## below commented out for testtask
+## if we didnt have testtask, we could do this:
 
 # desc 'Run tests'
 # task :test do
-#   sh 'ruby ./test/todolist_project_test.rb'
+#   sh 'ruby ./test/todolist_project_test.rb' ## `sh` is like `$ruby`
 # end
 
 desc 'Run tests'
