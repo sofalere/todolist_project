@@ -3,14 +3,14 @@ require 'stamp'
 # This class represents a todo item and its associated
 # data: name and description. There's also a "done"
 # flag to show whether this todo item is done.
-
+puts $LOADED_FEATURES.grep(/stamp\.rb/)
 class Todo
-  DONE_MARKER = 'X'
-  UNDONE_MARKER = ' '
+  DONE_MARKER = 'X'.freeze
+  UNDONE_MARKER = ' '.freeze
 
   attr_accessor :title, :description, :done, :due_date
 
-  def initialize(title, description='')
+  def initialize(title, description = '')
     @title = title
     @description = description
     @done = false
@@ -34,10 +34,10 @@ class Todo
     result
   end
 
-  def ==(otherTodo)
-    title == otherTodo.title &&
-      description == otherTodo.description &&
-      done == otherTodo.done
+  def ==(other)
+    title == other.title &&
+      description == other.description &&
+      done == other.done
   end
 end
 
@@ -74,7 +74,7 @@ class TodoList
   end
 
   def done?
-    @todos.all? { |todo| todo.done? }
+    @todos.all?(&:done?)
   end
 
   def <<(todo)
@@ -116,9 +116,9 @@ class TodoList
     @todos
   end
 
-  def each
+  def each(&blocky)
     @todos.each do |todo|
-      yield(todo)
+      blocky.call(todo)
     end
     self
   end
@@ -137,11 +137,11 @@ class TodoList
   end
 
   def all_done
-    select { |todo| todo.done? }
+    select(&:done?)
   end
 
   def all_not_done
-    select { |todo| !todo.done? }
+    select(&:done?)
   end
 
   def mark_done(title)
@@ -149,10 +149,10 @@ class TodoList
   end
 
   def mark_all_done
-    each { |todo| todo.done! }
+    each(&:done!)
   end
 
   def mark_all_undone
-    each { |todo| todo.undone! }
+    each(&:undone!)
   end
 end
